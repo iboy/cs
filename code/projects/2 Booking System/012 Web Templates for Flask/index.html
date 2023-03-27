@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Web Page Templates for Flask</title>
+	</head>
+<body>
+<h1>Web Page Templates for Flask</h1>
+
+<p>You may ask How do I create use web page templates with Flask and Python?</p>
+
+<h2>1. Install Jinja2</h2>
+
+<p>To create a web page template with Flask, you can use a templating engine such as Jinja2. Jinja2 allows you to define reusable templates for your web pages, which can help you to keep your code organized and reduce code duplication.</p>
+
+<p>Here&#39;s an example of how to create a simple web page template using Flask and Jinja2:</p>
+
+<p>Install Jinja2: If you haven&#39;t already, you&#39;ll need to install Jinja2 using the pip package manager. Open a command prompt or terminal window and run the following command:</p>
+
+<pre><code class="code-highlighted code-bash">pip install Jinja2</code></pre>
+
+<h2>2. Create a new Flask app</h2>
+
+<p>Create a new Flask app in a new Python file. Here&#39;s an example of a simple Flask app that uses Jinja2:</p>
+
+<pre><code class="code-highlighted code-bash">from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route(<span class="syntax-all syntax-string">&#39;/&#39;</span>)
+def index():
+    <span class="syntax-all syntax-keyword">return</span> render_template(<span class="syntax-all syntax-string">&#39;index.html&#39;</span>)
+
+<span class="syntax-all syntax-keyword">if</span> __name__ == <span class="syntax-all syntax-string">&#39;__main__&#39;</span>:
+    <span class="syntax-all syntax-entity">app.run</span>()</code></pre>
+
+<p>This code defines a route for the root URL (&quot;/&quot;) that returns an HTML template called &quot;index.html&quot;.</p>
+
+<h2>3. Create a template file: </h2>
+
+<p>Create a new folder called &quot;templates&quot; in the same directory as your Python file. Inside this folder, create a new HTML file called &quot;index.html&quot;. Here&#39;s an example of a simple template file:</p>
+
+<pre><code class="code-highlighted code-html">&lt;!DOCTYPE html&gt;
+&lt;<span class="syntax-all syntax-tag">html</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">head</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">title</span>&gt;{{ title }}&lt;/<span class="syntax-all syntax-tag">title</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">head</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">body</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">h1</span>&gt;{{ heading }}&lt;/<span class="syntax-all syntax-tag">h1</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">p</span>&gt;{{ content }}&lt;/<span class="syntax-all syntax-tag">p</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">body</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">html</span>&gt;</code></pre>
+
+<p>This template file defines a basic HTML page with a title, a heading, and some content. The content is defined using template variables, which are enclosed in double curly braces (&quot;(( ))&quot; ). These variables can be set dynamically when the template is rendered.</p>
+
+<h2>4. Render the template</h2>
+
+<p>In the Flask app code, we&#39;re returning the <code>&quot;index.html&quot;</code> template from the &quot;index&quot; route. We can pass variables to this template by including them as keyword arguments to the &quot;render_template&quot; function. Here&#39;s an example of how to pass variables to the template:</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&#39;/&#39;</span>)
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">index</span>():
+    title <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&#39;My Awesome Web Page&#39;</span>
+    heading <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&#39;Welcome to my web page!&#39;</span>
+    content <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&#39;This is some content for my web page.&#39;</span>
+    <span class="syntax-all syntax-keyword">return</span> render_template(<span class="syntax-all syntax-string">&#39;index.html&#39;</span>, <span class="syntax-all syntax-parameter">title</span><span class="syntax-all syntax-keyword">=</span>title, <span class="syntax-all syntax-parameter">heading</span><span class="syntax-all syntax-keyword">=</span>heading, <span class="syntax-all syntax-parameter">content</span><span class="syntax-all syntax-keyword">=</span>content)</code></pre>
+
+<p>In this code, we&#39;re setting the values of the &quot;title&quot;, &quot;heading&quot;, and &quot;content&quot; variables, and passing them to the &quot;index.html&quot; template as keyword arguments.</p>
+
+<p>When the template is rendered, the template variables will be replaced with their corresponding values, resulting in a fully rendered HTML page.</p>
+
+<h2>Tables of Lists: Create Loops in your template to make HTML tables</h2>
+
+<p>You can write your functions to pass all kinds of data to the web page you are rendering. For example, a list of events, then in the template use the embedded python syntax to create an HTML table with the content using a loop.</p>
+
+<p>To create a table of events using a loop in an HTML template with Flask, do these steps:</p>
+
+<ol>
+	<li>In your Flask app, define a route that retrieves the list of events from the database and passes them to a template:</li>
+</ol>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&#39;/events&#39;</span>)
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">events</span>():
+    events <span class="syntax-all syntax-keyword">=</span> db.session.query(Event).all()
+    <span class="syntax-all syntax-keyword">return</span> render_template(<span class="syntax-all syntax-string">&#39;events.html&#39;</span>, <span class="syntax-all syntax-parameter">events</span><span class="syntax-all syntax-keyword">=</span>events)</code></pre>
+
+<ol start="2">
+	<li>In your template (<code>events.html</code>), use a for loop to iterate over the list of events and generate a table row for each event:</li>
+</ol>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">table</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">thead</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">tr</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">th</span>&gt;Event Name&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">th</span>&gt;Date&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">th</span>&gt;Location&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+    &lt;/<span class="syntax-all syntax-tag">tr</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">thead</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">tbody</span>&gt;
+    {% for event in events %}
+      &lt;<span class="syntax-all syntax-tag">tr</span>&gt;
+        &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ event.name }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+        &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ event.date }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+        &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ event.location }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+      &lt;/<span class="syntax-all syntax-tag">tr</span>&gt;
+    {% endfor %}
+  &lt;/<span class="syntax-all syntax-tag">tbody</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">table</span>&gt;</code></pre>
+
+<p>In this example, we assume that the Event model has attributes name, date, and location. The for loop iterates over each event in the events list and generates a table row with the event details.</p>
+
+<p>Note that this is just a basic example, and you may need to expand the template to fit your specific design.</p>
+
+<p>This should get you started with creating web page templates using Flask and Jinja2. </p>
+
+</body>
+</html>
+
