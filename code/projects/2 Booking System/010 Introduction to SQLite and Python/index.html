@@ -54,6 +54,45 @@ Retrieving Data <span class="syntax-all syntax-keyword">from</span> SQLite</code
 
 <p>That&#39;s a brief introduction to using Python with SQLite! There&#39;s a lot more you can do with SQLite, including more complex SQL queries, updating and deleting data, and more. But this should give you a good starting point for working with SQLite in Python.</p>
 
+<h2>Building SQL Queries in Python</h2>
+
+<p>You will need to build SQL query strings in Python constructed from other data you process in your program. There are a few documented ways to do this, but you&#39;ll find some more secure than others. </p>
+
+<p>The code below demonstrates a safe way to construct dynamic queries, that offer some level of protection from SQL injections. Read the article linked in the code comment and <a href="https://stackoverflow.com/questions/49061103/how-to-format-and-build-query-strings-in-python-sqlite">here</a> for more information.</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-comment"># Building a query for sqlite in python
+</span><span class="syntax-all syntax-comment"># adapted from https://stackoverflow.com/questions/49061103/how-to-format-and-build-query-strings-in-python-sqlite
+</span><span class="syntax-all syntax-comment"># To avoid formatting problems and SQL injection attacks, you should always use parameters.
+</span>
+
+<span class="syntax-all syntax-keyword">import</span> sqlite3
+
+
+<span class="syntax-all syntax-comment">#create a connection
+</span>conn <span class="syntax-all syntax-keyword">=</span> sqlite3.connect(<span class="syntax-all syntax-string">&#39;test.db&#39;</span>)
+cur <span class="syntax-all syntax-keyword">=</span> conn.cursor()
+
+<span class="syntax-all syntax-comment">#cur.execute(&#39;&#39;&#39;
+</span><span class="syntax-all syntax-comment">#CREATE TABLE IF NOT EXISTS &quot;test&quot; 
+</span><span class="syntax-all syntax-comment">#    (   id integer, 
+</span><span class="syntax-all syntax-comment">#        value text,
+</span><span class="syntax-all syntax-comment">#        primary key (id)
+</span><span class="syntax-all syntax-comment">#    );
+</span><span class="syntax-all syntax-comment">#&#39;&#39;&#39;)
+</span>
+<span class="syntax-all syntax-comment"># create 4 records, note the primary key should autoincrement.
+</span>cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record One&quot;</span>,)); <span class="syntax-all syntax-comment"># note the final comma is essential for creating a single-element tuple
+</span>cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record Two&quot;</span>,));
+cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record Three&quot;</span>,));
+cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record Four&quot;</span>,));
+
+
+conn.commit()
+cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-string"> test;&#39;</span>);
+rows <span class="syntax-all syntax-keyword">=</span> cur.fetchall()
+<span class="syntax-all syntax-keyword">for</span> row <span class="syntax-all syntax-keyword">in</span> rows:
+    <span class="syntax-all syntax-constant">print</span>(row)</code></pre>
+
 </body>
 </html>
 
