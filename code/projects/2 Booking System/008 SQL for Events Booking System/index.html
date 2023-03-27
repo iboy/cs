@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>SQL for a Simple Events Booking System Demo</title>
+	</head>
+<body>
+<h1>SQL for a Simple Events Booking System Demo</h1>
+
+<p>An event booking system is similar to a regular booking system, but it also involves tracking events and the associated details. Here are the main SQL tables that an event booking system should have, along with some recommended attributes for each table:</p>
+
+<p><strong>Customers:</strong> This table should contain customer information such as name, address, phone number, email, and any other relevant details.</p>
+
+<ul>
+	<li>Customers (CustomerID (primary key)</li>
+	<li>FirstName</li>
+	<li>LastName</li>
+	<li>Address</li>
+	<li>City</li>
+	<li>State</li>
+	<li>ZipCode</li>
+	<li>Phone</li>
+	<li>Email</li>
+</ul>
+
+<p><strong>Events:</strong> This table should contain information about each event, such as the event name, date, time, location, capacity, and any other relevant details.</p>
+
+<ul>
+	<li>EventID (primary key)</li>
+	<li>EventName</li>
+	<li>EventDate</li>
+	<li>EventTime</li>
+	<li>Location</li>
+	<li>Capacity</li>
+	<li>Description</li>
+	<li>ImageURL</li>
+</ul>
+
+<p><strong>Bookings:</strong> This table should contain information about each booking, such as the date and time of the reservation, the customer who made the booking, and any other relevant details such as the number of people in the reservation, special requests, etc.</p>
+
+<ul>
+	<li>BookingID (primary key)</li>
+	<li>EventID (foreign key)</li>
+	<li>CustomerID (foreign key)</li>
+	<li>BookingDate</li>
+	<li>BookingTime</li>
+	<li>NumAttendees</li>
+	<li>SpecialRequests</li>
+</ul>
+
+<p><strong>Payment: </strong>This table should contain information about payments made by customers, such as the payment ID, the booking ID, the payment amount, the payment date, etc.</p>
+
+<ul>
+	<li>PaymentID (primary key)</li>
+	<li>BookingID (foreign key)</li>
+	<li>PaymentAmount</li>
+	<li>PaymentDate</li>
+	<li>PaymentMethod</li>
+</ul>
+
+<p>These are the main tables that an event booking system should have, but depending on the specific design of your system, you may need additional tables or fields to capture all the necessary information. For example, if you need to track different types of events or allow customers to choose from multiple event locations, you may need additional &#39;Category&#39; tables to handle this information.</p>
+
+<h1>Demo Booking System SQL for SQLite</h1>
+
+<pre><code class="code-highlighted code-sql"><span class="syntax-all syntax-comment">-- Customers table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Customers</span> (
+    CustomerID <span class="syntax-all syntax-keyword">INTEGER</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span>,
+    FirstName <span class="syntax-all syntax-keyword">TEXT</span>,
+    LastName <span class="syntax-all syntax-keyword">TEXT</span>,
+    Address <span class="syntax-all syntax-keyword">TEXT</span>,
+    City <span class="syntax-all syntax-keyword">TEXT</span>,
+    State <span class="syntax-all syntax-keyword">TEXT</span>,
+    ZipCode <span class="syntax-all syntax-keyword">TEXT</span>,
+    Phone <span class="syntax-all syntax-keyword">TEXT</span>,
+    Email <span class="syntax-all syntax-keyword">TEXT</span>
+);
+
+<span class="syntax-all syntax-comment">-- Events table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Events</span> (
+    EventID <span class="syntax-all syntax-keyword">INTEGER</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span>,
+    EventName <span class="syntax-all syntax-keyword">TEXT</span>,
+    EventDate <span class="syntax-all syntax-keyword">DATE</span>,
+    EventTime <span class="syntax-all syntax-keyword">TIME</span>,
+    Location <span class="syntax-all syntax-keyword">TEXT</span>,
+    Capacity <span class="syntax-all syntax-keyword">INTEGER</span>,
+    Description <span class="syntax-all syntax-keyword">TEXT</span>,
+    ImageURL <span class="syntax-all syntax-keyword">TEXT</span>
+);
+
+<span class="syntax-all syntax-comment">-- Bookings table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Bookings</span> (
+    BookingID <span class="syntax-all syntax-keyword">INTEGER</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span>,
+    EventID <span class="syntax-all syntax-keyword">INTEGER</span>,
+    CustomerID <span class="syntax-all syntax-keyword">INTEGER</span>,
+    BookingDate <span class="syntax-all syntax-keyword">DATE</span>,
+    BookingTime <span class="syntax-all syntax-keyword">TIME</span>,
+    NumAttendees <span class="syntax-all syntax-keyword">INTEGER</span>,
+    SpecialRequests <span class="syntax-all syntax-keyword">TEXT</span>,
+    <span class="syntax-all syntax-keyword">FOREIGN KEY</span> (EventID) <span class="syntax-all syntax-keyword">REFERENCES</span> Events(EventID),
+    <span class="syntax-all syntax-keyword">FOREIGN KEY</span> (CustomerID) <span class="syntax-all syntax-keyword">REFERENCES</span> Customers(CustomerID)
+);
+
+<span class="syntax-all syntax-comment">-- Payment table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Payment</span> (
+    PaymentID <span class="syntax-all syntax-keyword">INTEGER</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span>,
+    BookingID <span class="syntax-all syntax-keyword">INTEGER</span>,
+    PaymentAmount <span class="syntax-all syntax-keyword">DECIMAL</span>(<span class="syntax-all syntax-constant">10</span>, <span class="syntax-all syntax-constant">2</span>),
+    PaymentDate <span class="syntax-all syntax-keyword">DATE</span>,
+    PaymentMethod <span class="syntax-all syntax-keyword">TEXT</span>,
+    <span class="syntax-all syntax-keyword">FOREIGN KEY</span> (BookingID) <span class="syntax-all syntax-keyword">REFERENCES</span> Bookings(BookingID)
+);</code></pre>
+
+<p>Note that the syntax for specifying data types and primary keys is slightly different in SQLite compared to MySQL.</p>
+
+<hr />
+
+<h1>Demo Booking System SQL for MySQL</h1>
+
+<pre><code class="code-highlighted code-sql"><span class="syntax-all syntax-comment">-- Customers table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Customers</span> (
+    CustomerID <span class="syntax-all syntax-keyword">INT</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span> AUTO_INCREMENT,
+    FirstName <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">50</span>),
+    LastName <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">50</span>),
+    Address <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">100</span>),
+    City <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">50</span>),
+    State <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">50</span>),
+    ZipCode <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">20</span>),
+    Phone <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">20</span>),
+    Email <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">100</span>)
+);
+
+<span class="syntax-all syntax-comment">-- Events table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Events</span> (
+    EventID <span class="syntax-all syntax-keyword">INT</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span> AUTO_INCREMENT,
+    EventName <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">100</span>),
+    EventDate <span class="syntax-all syntax-keyword">DATE</span>,
+    EventTime <span class="syntax-all syntax-keyword">TIME</span>,
+    Location <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">100</span>),
+    Capacity <span class="syntax-all syntax-keyword">INT</span>,
+    Description <span class="syntax-all syntax-keyword">TEXT</span>,
+    ImageURL <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">200</span>)
+);
+
+<span class="syntax-all syntax-comment">-- Bookings table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Bookings</span> (
+    BookingID <span class="syntax-all syntax-keyword">INT</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span> AUTO_INCREMENT,
+    EventID <span class="syntax-all syntax-keyword">INT</span>,
+    CustomerID <span class="syntax-all syntax-keyword">INT</span>,
+    BookingDate <span class="syntax-all syntax-keyword">DATE</span>,
+    BookingTime <span class="syntax-all syntax-keyword">TIME</span>,
+    NumAttendees <span class="syntax-all syntax-keyword">INT</span>,
+    SpecialRequests <span class="syntax-all syntax-keyword">TEXT</span>,
+    <span class="syntax-all syntax-keyword">FOREIGN KEY</span> (EventID) <span class="syntax-all syntax-keyword">REFERENCES</span> Events(EventID),
+    <span class="syntax-all syntax-keyword">FOREIGN KEY</span> (CustomerID) <span class="syntax-all syntax-keyword">REFERENCES</span> Customers(CustomerID)
+);
+
+<span class="syntax-all syntax-comment">-- Payment table
+</span><span class="syntax-all syntax-keyword">CREATE</span> <span class="syntax-all syntax-keyword">TABLE</span> <span class="syntax-all syntax-entity">Payment</span> (
+    PaymentID <span class="syntax-all syntax-keyword">INT</span> <span class="syntax-all syntax-keyword">PRIMARY KEY</span> AUTO_INCREMENT,
+    BookingID <span class="syntax-all syntax-keyword">INT</span>,
+    PaymentAmount <span class="syntax-all syntax-keyword">DECIMAL</span>(<span class="syntax-all syntax-constant">10</span>, <span class="syntax-all syntax-constant">2</span>),
+    PaymentDate <span class="syntax-all syntax-keyword">DATE</span>,
+    PaymentMethod <span class="syntax-all syntax-keyword">VARCHAR</span>(<span class="syntax-all syntax-constant">50</span>),
+    <span class="syntax-all syntax-keyword">FOREIGN KEY</span> (BookingID) <span class="syntax-all syntax-keyword">REFERENCES</span> Bookings(BookingID)
+);</code></pre>
+
+<p>Note that the syntax for specifying data types and primary keys is slightly different in MySQL compared to SQLite. Additionally, MySQL uses the AUTO_INCREMENT keyword to automatically generate unique primary key values, whereas in SQLite we used the INTEGER PRIMARY KEY syntax to achieve the same effect.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>W3 Schools: See HTML, CSS, PHP and SQL in References <a href="https://www.w3schools.com/">https://www.w3schools.com/</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+

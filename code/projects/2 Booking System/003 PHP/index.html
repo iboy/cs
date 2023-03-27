@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>An introduction to PHP</title>
+	</head>
+<body>
+<h1>An introduction to PHP</h1>
+
+<p>PHP stands for &quot;Hypertext Preprocessor&quot; and it is a server-side scripting language commonly used for web development. It is open-source and can be embedded within HTML to create dynamic and interactive web pages.</p>
+
+<p>Here&#39;s a simple example of PHP code that can be used in a web page:</p>
+
+<pre><code class="code-highlighted code-html">&lt;!DOCTYPE html&gt;
+&lt;<span class="syntax-all syntax-tag">html</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">head</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">title</span>&gt;PHP Example&lt;/<span class="syntax-all syntax-tag">title</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">head</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">body</span>&gt;
+    &lt;?php
+      $name = &quot;Year 12&quot;;
+      echo &quot;Hello, $name!&quot;;
+    ?&gt;
+  &lt;/<span class="syntax-all syntax-tag">body</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">html</span>&gt;</code></pre>
+
+<p>In this example, we first declare that we are using HTML by using <code>&lt;!DOCTYPE html&gt;</code> at the beginning of the document. Then we define the structure of the web page with the <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code> tags.</p>
+
+<p>Inside the body of the document, we use the <code>&lt;?php</code> opening tag to indicate that we are switching to PHP mode. We then define a variable called $name and assign it the value &quot;Year 12&quot;. Finally, we use the <code>echo</code> statement to output the string <code>&quot;Hello, $name!&quot;</code>.</p>
+
+<p>When this code is run on a web server, the PHP code will be executed on the server-side, and the resulting HTML code will be sent to the user&#39;s web browser. The user will see the output <code>&quot;Hello, Year 12!&quot;</code> on their screen.</p>
+
+<h2>Using Time and Dates in PHP and MySQL</h2>
+
+<p>PHP is a server-side programming language that provides various functions to manipulate dates and times. It also has built-in support for working with databases, including MySQL. In this introduction, we will cover some of the essential time and date functions in PHP and how to use them with MySQL.</p>
+
+<h3>PHP Date and Time Functions:</h3>
+
+<p>date(): This function is used to format a date and time string in PHP. It takes two parameters, the format and the timestamp.</p>
+
+<p>Example: echo date(&quot;Y-m-d H:i:s&quot;);</p>
+
+<p>Output: 2023-03-26 09:30:00</p>
+
+<p><strong>time():</strong> This function returns the current Unix timestamp, which is the number of seconds since January 1, 1970.</p>
+
+<p><strong>Example:</strong> <code>echo time();</code></p>
+
+<p><strong>Output:</strong> 1648345200</p>
+
+<p><strong>strtotime(): </strong>This function parses a date and time string and returns a Unix timestamp.</p>
+
+<p><strong>Example: </strong><code>echo strtotime(&quot;2023-03-26 09:30:00&quot;);</code></p>
+
+<p><strong>Output: </strong>1648345200</p>
+
+<p><strong>mktime():</strong> This function returns the Unix timestamp for a specific date and time.</p>
+
+<p><strong>Example: </strong><code>echo mktime(0, 0, 0, 3, 26, 2023);</code></p>
+
+<p><strong>Output:</strong> 1648210800</p>
+
+<h3>Using PHP Date and Time Functions with MySQL:</h3>
+
+<p>MySQL also has its own set of date and time functions that can be used with PHP. Here are some examples:</p>
+
+<p><strong>NOW(): </strong>This function returns the current date and time in the MySQL format.</p>
+
+<p><strong>Example: </strong><code>SELECT NOW();</code></p>
+
+<p><strong>Output</strong>: 2023-03-26 09:30:00</p>
+
+<p><strong>UNIX_TIMESTAMP():</strong> This function returns the Unix timestamp for a given date and time in the MySQL format.</p>
+
+<p><strong>Example: </strong><code>SELECT UNIX_TIMESTAMP(&#39;2023-03-26 09:30:00&#39;);</code></p>
+
+<p><strong></strong></p>
+
+<p>Output:<strong> 1648345200</strong></p>
+
+<p><strong>FROM_UNIXTIME():</strong> This function converts a Unix timestamp to a MySQL format date and time string.</p>
+
+<p><strong>Example: </strong> <code>SELECT FROM_UNIXTIME(1648345200);</code></p>
+
+<p><strong>Output: </strong>2023-03-26 09:30:00</p>
+
+<p>In conclusion, PHP provides many functions to manipulate dates and times, which can be used with MySQL to store and retrieve date and time data in databases. By understanding these functions, you can build dynamic web applications that require accurate date and time management.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>Learn HTML, CSS and PHP here: <a href="https://developer.mozilla.org/en-US/docs/Web">https://developer.mozilla.org/en-US/docs/Web</a></li>
+	<li>PHP Documentation: <a href="https://www.php.net/docs.php">https://www.php.net/docs.php</a></li>
+	<li>W3 Schools: See HTML, CSS, PHP and SQL in References <a href="https://www.w3schools.com/">https://www.w3schools.com/</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+

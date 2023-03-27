@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Demo Booking System in PHP</title>
+	</head>
+<body>
+<h1>Demo Booking System in PHP</h1>
+
+<p>Here is an example PHP CRUD System using the MySQL scheme, shown earlier.</p>
+
+<p>You can place these scripts in your XAMPP <code>htdocs</code> foldler</p>
+
+<h2>index.php:</h2>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-keyword">&lt;?</span><span class="syntax-all syntax-constant">php</span>
+<span class="syntax-all syntax-comment">// Connect to database
+</span><span class="syntax-all syntax-parameter">$conn</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_connect</span>(<span class="syntax-all syntax-string">&#39;localhost&#39;</span>, <span class="syntax-all syntax-string">&#39;username&#39;</span>, <span class="syntax-all syntax-string">&#39;password&#39;</span>, <span class="syntax-all syntax-string">&#39;booking_system&#39;</span>);
+
+<span class="syntax-all syntax-comment">// Check connection
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-keyword">!</span><span class="syntax-all syntax-parameter">$conn</span>) {
+    <span class="syntax-all syntax-keyword">die</span>(<span class="syntax-all syntax-string">&quot;Connection failed: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-entity">mysqli_connect_error</span>());
+}
+
+<span class="syntax-all syntax-comment">// Get all events
+</span><span class="syntax-all syntax-parameter">$sql</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-parameter"> events</span><span class="syntax-all syntax-string">&quot;</span>;
+<span class="syntax-all syntax-parameter">$result</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_query</span>(<span class="syntax-all syntax-parameter">$conn</span>, <span class="syntax-all syntax-parameter">$sql</span>);
+
+<span class="syntax-all syntax-comment">// Display events in a table
+</span><span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;h2&gt;Events&lt;/h2&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;a href=&#39;create.php&#39;&gt;Create New Event&lt;/a&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;table&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;tr&gt;&lt;th&gt;ID&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Date&lt;/th&gt;&lt;th&gt;Time&lt;/th&gt;&lt;th&gt;Location&lt;/th&gt;&lt;th&gt;Capacity&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Image&lt;/th&gt;&lt;th&gt;Actions&lt;/th&gt;&lt;/tr&gt;&quot;</span>;
+<span class="syntax-all syntax-keyword">while</span> (<span class="syntax-all syntax-parameter">$row</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_fetch_assoc</span>(<span class="syntax-all syntax-parameter">$result</span>)) {
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;tr&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventID&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventName&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventDate&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventTime&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;Location&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;Capacity&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;Description&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&lt;img src=&#39;&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;ImageURL&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&#39; width=&#39;100&#39;&gt;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;a href=&#39;read.php?id=&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventID&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&#39;&gt;Read&lt;/a&gt; &quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;a href=&#39;update.php?id=&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventID&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&#39;&gt;Update&lt;/a&gt; &quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;a href=&#39;delete.php?id=&quot;</span><span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&#39;EventID&#39;</span>]<span class="syntax-all syntax-keyword">.</span><span class="syntax-all syntax-string">&quot;&#39;&gt;Delete&lt;/a&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;/td&gt;&quot;</span>;
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;/tr&gt;&quot;</span>;
+}
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;/table&gt;&quot;</span>;
+
+<span class="syntax-all syntax-comment">// Close connection
+</span><span class="syntax-all syntax-constant">mysqli_close</span>(<span class="syntax-all syntax-parameter">$conn</span>);
+<span class="syntax-all syntax-keyword">?&gt;</span></code></pre>
+
+<h2>create.php:</h2>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-keyword">&lt;?</span><span class="syntax-all syntax-constant">php</span>
+<span class="syntax-all syntax-comment">// Connect to database
+</span><span class="syntax-all syntax-parameter">$conn</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_connect</span>(<span class="syntax-all syntax-string">&#39;localhost&#39;</span>, <span class="syntax-all syntax-string">&#39;username&#39;</span>, <span class="syntax-all syntax-string">&#39;password&#39;</span>, <span class="syntax-all syntax-string">&#39;booking_system&#39;</span>);
+
+<span class="syntax-all syntax-comment">// Check connection
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-keyword">!</span><span class="syntax-all syntax-parameter">$conn</span>) {
+    <span class="syntax-all syntax-keyword">die</span>(<span class="syntax-all syntax-string">&quot;Connection failed: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-entity">mysqli_connect_error</span>());
+}
+
+<span class="syntax-all syntax-comment">// If form is submitted, insert new event into database
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-constant">isset</span>(<span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;submit&#39;</span>])) {
+    <span class="syntax-all syntax-parameter">$name</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;name&#39;</span>];
+    <span class="syntax-all syntax-parameter">$date</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;date&#39;</span>];
+    <span class="syntax-all syntax-parameter">$time</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;time&#39;</span>];
+    <span class="syntax-all syntax-parameter">$location</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;location&#39;</span>];
+    <span class="syntax-all syntax-parameter">$capacity</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;capacity&#39;</span>];
+    <span class="syntax-all syntax-parameter">$description</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;description&#39;</span>];
+    <span class="syntax-all syntax-parameter">$image</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;image&#39;</span>];
+
+    <span class="syntax-all syntax-parameter">$sql</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-parameter"> events (EventName, EventDate, EventTime, Location, Capacity, Description, ImageURL) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-parameter"> (</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$name</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$date</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$time</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$location</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$capacity</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$description</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$image</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">)</span><span class="syntax-all syntax-string">&quot;</span>;
+    <span class="syntax-all syntax-constant">mysqli_query</span>(<span class="syntax-all syntax-parameter">$conn</span>, <span class="syntax-all syntax-parameter">$sql</span>);
+
+    <span class="syntax-all syntax-comment">// Redirect back to main page
+</span>    <span class="syntax-all syntax-constant">header</span>(<span class="syntax-all syntax-string">&#39;Location: index.php&#39;</span>);
+}
+
+<span class="syntax-all syntax-comment">// Display form to create new event
+</span><span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;h2&gt;Create New Event&lt;/h2&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;form method=&#39;post&#39;&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Name: &lt;input type=&#39;text&#39; name=&#39;name&#39;&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Date: &lt;input type=&#39;date&#39; name=&#39;date&#39;&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Time: &lt;input type=&#39;time&#39; name=&#39;time&#39;&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Location: &lt;input type=&#39;text&#39; name=&#39;location&#39;&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Capacity: &lt;input type=&#39;number&#39; name=&#39;capacity&#39;&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Description: &lt;textarea name=&#39;description&#39;&gt;&lt;/textarea&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Image URL: &lt;input type=&#39;text&#39; name=&#39;image&#39;&gt;&lt;br&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;input type=&#39;submit&#39; name=&#39;submit&#39; value=&#39;Create&#39;&gt;&quot;</span>;
+<span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;&lt;/form&gt;&quot;</span>;</code></pre>
+
+<h1>delete.php</h1>
+
+<p>Create a PHP script to handle the deletion. This script will need to receive the ID of the booking record to be deleted, either through a GET or POST request. Here&#39;s an example of what that script might look like:</p>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-keyword">&lt;?</span><span class="syntax-all syntax-constant">php</span>
+<span class="syntax-all syntax-comment">// Connect to the database
+</span><span class="syntax-all syntax-parameter">$conn</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_connect</span>(<span class="syntax-all syntax-string">&quot;localhost&quot;</span>, <span class="syntax-all syntax-string">&quot;username&quot;</span>, <span class="syntax-all syntax-string">&quot;password&quot;</span>, <span class="syntax-all syntax-string">&quot;database_name&quot;</span>);
+
+<span class="syntax-all syntax-comment">// Check for errors
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-keyword">!</span><span class="syntax-all syntax-parameter">$conn</span>) {
+    <span class="syntax-all syntax-keyword">die</span>(<span class="syntax-all syntax-string">&quot;Connection failed: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-entity">mysqli_connect_error</span>());
+}
+
+<span class="syntax-all syntax-comment">// Check if a booking ID was provided
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-constant">isset</span>(<span class="syntax-all syntax-parameter">$_GET</span>[<span class="syntax-all syntax-string">&#39;id&#39;</span>])) {
+    <span class="syntax-all syntax-comment">// Sanitize the input
+</span>    <span class="syntax-all syntax-parameter">$id</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_real_escape_string</span>(<span class="syntax-all syntax-parameter">$conn</span>, <span class="syntax-all syntax-parameter">$_GET</span>[<span class="syntax-all syntax-string">&#39;id&#39;</span>]);
+
+    <span class="syntax-all syntax-comment">// Delete the booking record from the database
+</span>    <span class="syntax-all syntax-parameter">$sql</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">DELETE</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-parameter"> bookings </span><span class="syntax-all syntax-keyword">WHERE</span><span class="syntax-all syntax-parameter"> id </span><span class="syntax-all syntax-keyword">=</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$id</span><span class="syntax-all syntax-string">&#39;&quot;</span>;
+
+    <span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-constant">mysqli_query</span>(<span class="syntax-all syntax-parameter">$conn</span>, <span class="syntax-all syntax-parameter">$sql</span>)) {
+        <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Booking deleted successfully&quot;</span>;
+    } <span class="syntax-all syntax-keyword">else</span> {
+        <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Error deleting booking: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-entity">mysqli_error</span>(<span class="syntax-all syntax-parameter">$conn</span>);
+    }
+} <span class="syntax-all syntax-keyword">else</span> {
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;No booking ID provided&quot;</span>;
+}
+
+<span class="syntax-all syntax-comment">// Close the database connection
+</span><span class="syntax-all syntax-constant">mysqli_close</span>(<span class="syntax-all syntax-parameter">$conn</span>);
+<span class="syntax-all syntax-keyword">?&gt;</span></code></pre>
+
+<h3>Code Walkthrough</h3>
+
+<p>In this script, we first connect to the database using mysqli_connect(). Then we check if a booking ID was provided in the request using isset(). If a booking ID was provided, we sanitize the input using mysqli_real_escape_string() to prevent SQL injection attacks. We then construct an SQL query to delete the booking record from the bookings table using DELETE FROM. We execute the query using mysqli_query() and check for errors. If the query was successful, we display a success message. Otherwise, we display an error message with mysqli_error(). Finally, we close the database connection using mysqli_close().</p>
+
+<p>To trigger this script, you can create a link or button on your web page that points to the script with the booking ID as a parameter, like this:</p>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">a</span> <span class="syntax-all syntax-entity">href</span>=<span class="syntax-all syntax-string">&quot;delete_booking.php?id=123&quot;</span>&gt;Delete booking&lt;/<span class="syntax-all syntax-tag">a</span>&gt;</code></pre>
+
+<p>In this example, the booking ID is 123, but you can replace that with the actual ID of the booking record you want to delete.</p>
+
+<p>You could include this link in the HTML table generated in an earlier example: passing each recordID of each event into the deletion logic. Remember: it is essential user experience to offer a prompt that asks a user to confirm a deletion before actual executing the command. Plan your logic to handle this.</p>
+
+</body>
+</html>
+

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Using Flask in an XAMPP Installation</title>
+	</head>
+<body>
+<h1>Using Flask in an XAMPP Installation</h1>
+
+<p>Flask is a Python web framework, and it can be used with XAMPP as long as you have a Python interpreter installed on your system. XAMPP is primarily designed to support PHP-based web applications, but you can use it to run a Python-based web application with a few additional steps.</p>
+
+<p>Here&#39;s how you can use Flask with XAMPP:</p>
+
+<ol>
+	<li>Install Python: You&#39;ll need to have Python installed on your system to use Flask. You can download the latest version of Python from the official Python website and follow the installation instructions.</li>
+	<li>Install Flask: Once you have Python installed, you can install Flask using the pip package manager. Open a command prompt or terminal window and run the following command:</li>
+</ol>
+
+<pre><code class="code-highlighted code-bash">pip install Flask</code></pre>
+
+<p>This will download and install the latest version of Flask.</p>
+
+<h2>Create a Flask App</h2>
+
+<ol>
+	<li>Create a Flask app: You can create a new Flask app in a new Python file. Here&#39;s an example of a simple Flask app:</li>
+</ol>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-keyword">from</span> flask <span class="syntax-all syntax-keyword">import</span> Flask
+
+app <span class="syntax-all syntax-keyword">=</span> Flask(<span class="syntax-all syntax-constant">__name__</span>)
+
+<span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&#39;/&#39;</span>)
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">hello</span>():
+    <span class="syntax-all syntax-keyword">return</span> <span class="syntax-all syntax-string">&#39;Hello, world!&#39;</span>
+
+<span class="syntax-all syntax-keyword">if</span> <span class="syntax-all syntax-constant">__name__</span> <span class="syntax-all syntax-keyword">==</span> <span class="syntax-all syntax-string">&#39;__main__&#39;</span>:
+    app.run()</code></pre>
+
+<p>Save this code as a file with a &quot;.py&quot; extension, such as <code>&quot;myapp.py&quot;</code>.</p>
+
+<ol start="2">
+	<li>Run the Flask app with XAMPP: To run the Flask app with XAMPP, you need to start a local development server that listens on a specific port. XAMPP comes with Apache, which can be used as a proxy server to forward requests to the Flask app.</li>
+	<li>To set up the proxy, open the &quot;httpd.conf&quot; file located in the <code>&quot;apache/conf&quot;</code> folder of your XAMPP installation directory. Add the following lines at the end of the file:</li>
+</ol>
+
+<pre><code class="code-highlighted code-bash">ProxyPass / http://localhost:5000/
+ProxyPassReverse / http://localhost:5000/</code></pre>
+
+<p>These lines tell Apache to forward all requests to the Flask app running on port 5000.</p>
+
+<p>Save the file and restart the Apache server. Then, open a command prompt or terminal window and navigate to the folder where your Flask app is located. Run the following command to start the Flask development server:</p>
+
+<pre><code class="code-highlighted code-bash">python myapp.py</code></pre>
+
+<p>This will start the Flask app on port 5000. You should now be able to access the app by opening a web browser and navigating to <code>&quot;http://localhost&quot;</code> or <code>&quot;http://127.0.0.1&quot;</code>.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>Learning Flask: <a href="https://www.fullstackpython.com/flask.html">https://www.fullstackpython.com/flask.html</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>POST and GET Methods and HTML form: A worked example using PHP</title>
+	</head>
+<body>
+<h1>POST and GET Methods and HTML form: A worked example using PHP</h1>
+
+<p>When you submit an HTML form, the data that you entered into the form is sent to a server for processing. There are two HTTP methods that can be used to send this data: POST and GET.</p>
+
+<p>POST method is used when you want to submit sensitive or complex data, like passwords or large amounts of text, to the server. With POST, the data is sent in the HTTP request body, rather than in the URL, so it&#39;s not visible to users. POST is the preferred method when you need to modify data on the server or perform an action, such as creating a new record in a database.</p>
+
+<p>GET method, on the other hand, is used when you want to retrieve data from the server. With GET, the data is sent in the URL as query parameters, so it&#39;s visible to users. GET is best used when you need to retrieve information, such as a search query or a list of records, from the server.</p>
+
+<p>Now, let&#39;s take a look at an example of using POST and GET in an HTML form using PHP. Let&#39;s say we have a simple form that allows users to enter their name and email address, and we want to submit this data to a PHP script for processing.</p>
+
+<p>Here&#39;s what the HTML form code might look like:</p>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">form</span> <span class="syntax-all syntax-entity">action</span>=<span class="syntax-all syntax-string">&quot;process_form.php&quot;</span> <span class="syntax-all syntax-entity">method</span>=<span class="syntax-all syntax-string">&quot;post&quot;</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span>&gt;Name:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;text&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span>&gt;Email:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">button</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;submit&quot;</span>&gt;Submit&lt;/<span class="syntax-all syntax-tag">button</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">form</span>&gt;</code></pre>
+
+<h2>Using the POST Method</h2>
+
+<p>In this example, we&#39;re using the POST method to submit the form data to the process_form.php script.</p>
+
+<p>Now, let&#39;s take a look at what the PHP script might look like to process this form data:</p>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-keyword">&lt;?</span><span class="syntax-all syntax-constant">php</span>
+<span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-parameter">$_SERVER</span>[<span class="syntax-all syntax-string">&#39;REQUEST_METHOD&#39;</span>] <span class="syntax-all syntax-keyword">===</span> <span class="syntax-all syntax-string">&#39;POST&#39;</span>) {
+  <span class="syntax-all syntax-parameter">$name</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;name&#39;</span>];
+  <span class="syntax-all syntax-parameter">$email</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&#39;email&#39;</span>];
+
+  <span class="syntax-all syntax-comment">// Do something with the form data, like store it in a database
+</span>}
+<span class="syntax-all syntax-keyword">?&gt;</span></code></pre>
+
+<p>In this script, we&#39;re checking to see if the HTTP request method is POST, and then we&#39;re accessing the form data using the $_POST superglobal variable.</p>
+
+<h2>Using the GET Method</h2>
+
+<p>Now, let&#39;s take a look at an example of using GET in an HTML form. Let&#39;s say we have a form that allows users to search for products on our website, and we want to use the GET method to retrieve search results from the server.</p>
+
+<p>Here&#39;s what the HTML form code might look like:</p>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">form</span> <span class="syntax-all syntax-entity">action</span>=<span class="syntax-all syntax-string">&quot;search.php&quot;</span> <span class="syntax-all syntax-entity">method</span>=<span class="syntax-all syntax-string">&quot;get&quot;</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;query&quot;</span>&gt;Search:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;text&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;query&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;query&quot;</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">button</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;submit&quot;</span>&gt;Search&lt;/<span class="syntax-all syntax-tag">button</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">form</span>&gt;</code></pre>
+
+<p>In this example, we&#39;re using the GET method to submit the form data to the search.php script.</p>
+
+<p>Now, let&#39;s take a look at what the PHP script might look like to process this form data:</p>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-keyword">&lt;?</span><span class="syntax-all syntax-constant">php</span>
+<span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-parameter">$_SERVER</span>[<span class="syntax-all syntax-string">&#39;REQUEST_METHOD&#39;</span>] <span class="syntax-all syntax-keyword">===</span> <span class="syntax-all syntax-string">&#39;GET&#39;</span>) {
+  <span class="syntax-all syntax-parameter">$query</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_GET</span>[<span class="syntax-all syntax-string">&#39;query&#39;</span>];
+
+  <span class="syntax-all syntax-comment">// Search for products that match the query
+</span>}
+<span class="syntax-all syntax-keyword">?&gt;</span></code></pre>
+
+<p>In this script, we&#39;re checking to see if the HTTP request method is GET, and then we&#39;re accessing the search query using the $_GET superglobal variable.</p>
+
+<h2>Task</h2>
+
+<p>Explore the code above and note the differences between GET and POST.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>Learn HTML, CSS and PHP here: <a href="https://developer.mozilla.org/en-US/docs/Web">https://developer.mozilla.org/en-US/docs/Web</a></li>
+	<li>CS50W - Harvard Course: For a more in depth view of contemporary HTML, CSS and JS <a href="https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0">https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0</a></li>
+	<li>W3 Schools: See HTML, CSS, PHP and SQL in References <a href="https://www.w3schools.com/">https://www.w3schools.com/</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+
