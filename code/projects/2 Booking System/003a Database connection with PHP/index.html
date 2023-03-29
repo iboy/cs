@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Connect to a Database with PHP</title>
+	</head>
+<body>
+<h1>Connect to a Database with PHP</h1>
+
+<p>Here&#39;s a basic example of how to connect to a MySQL database using PHP:</p>
+
+<p><strong>Pre-requisites:</strong> You have XAMPP running a database. You know that name of the database, the mysql user (for us it will be &#39;root&#39;) and password (for us it is either blank or &#39;password&#39;)</p>
+
+<p>First, you need to create a database connection using the mysqli_connect() function in PHP. Here&#39;s an example:</p>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-parameter">$servername</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;localhost&quot;</span>; <span class="syntax-all syntax-comment">// likely &quot;localhost&quot;
+</span><span class="syntax-all syntax-parameter">$username</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;username&quot;</span>; <span class="syntax-all syntax-comment">// &quot;root&quot;
+</span><span class="syntax-all syntax-parameter">$password</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;password&quot;</span>; <span class="syntax-all syntax-comment">// &quot;&quot; blank or &quot;password&quot; or what you set it to be
+</span><span class="syntax-all syntax-parameter">$dbname</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;database_name&quot;</span>; <span class="syntax-all syntax-comment">// your DB name
+</span>
+<span class="syntax-all syntax-comment">// Create connection
+</span><span class="syntax-all syntax-parameter">$conn</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_connect</span>(<span class="syntax-all syntax-parameter">$servername</span>, <span class="syntax-all syntax-parameter">$username</span>, <span class="syntax-all syntax-parameter">$password</span>, <span class="syntax-all syntax-parameter">$dbname</span>);
+
+<span class="syntax-all syntax-comment">// Check connection
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-keyword">!</span><span class="syntax-all syntax-parameter">$conn</span>) {
+    <span class="syntax-all syntax-keyword">die</span>(<span class="syntax-all syntax-string">&quot;Connection failed: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-entity">mysqli_connect_error</span>());
+}</code></pre>
+
+<p>In this example, you need to replace localhost with the hostname of your MySQL server, username with the username you use to connect to MySQL, password with the password for that user, and database_name with the name of the MySQL database you want to connect to.</p>
+
+<p>After the connection is created, you can execute queries on the database using the mysqli_query() function. For example:</p>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-parameter">$sql</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-parameter"> table_name</span><span class="syntax-all syntax-string">&quot;</span>;
+<span class="syntax-all syntax-parameter">$result</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_query</span>(<span class="syntax-all syntax-parameter">$conn</span>, <span class="syntax-all syntax-parameter">$sql</span>);
+
+<span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-entity">mysqli_num_rows</span>(<span class="syntax-all syntax-parameter">$result</span>) <span class="syntax-all syntax-keyword">&gt;</span> <span class="syntax-all syntax-constant">0</span>) {
+    <span class="syntax-all syntax-comment">// output data of each row
+</span>    <span class="syntax-all syntax-keyword">while</span>(<span class="syntax-all syntax-parameter">$row</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-constant">mysqli_fetch_assoc</span>(<span class="syntax-all syntax-parameter">$result</span>)) {
+        <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;id: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&quot;id&quot;</span>]<span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-string">&quot; - Name: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-parameter">$row</span>[<span class="syntax-all syntax-string">&quot;name&quot;</span>]<span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-string">&quot;&lt;br&gt;&quot;</span>;
+    }
+} <span class="syntax-all syntax-keyword">else</span> {
+    <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;0 results&quot;</span>;
+}
+
+<span class="syntax-all syntax-constant">mysqli_close</span>(<span class="syntax-all syntax-parameter">$conn</span>);</code></pre>
+
+<p>In this example, we&#39;re selecting all rows from a table called table_name. We&#39;re then using a loop to output the data for each row. Finally, we close the database connection using the mysqli_close() function.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>PHP Documentation: <a href="https://www.php.net/manual/en/mysqli.quickstart.php">https://www.php.net/manual/en/mysqli.quickstart.php</a></li>
+</ol>
+
+<p>Note there are many types of database connections that can be used from PHP. We are using <code>mysqli</code>.</p>
+
+</body>
+</html>
+
