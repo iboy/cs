@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>An introduction to CSS</title>
+	</head>
+<body>
+<h1>An introduction to CSS</h1>
+
+<p>CSS, which stands for Cascading Style Sheets, is a language used to describe the visual style and layout of web pages written in HTML. By using CSS, you can control how web page elements are displayed, such as font size, colour, spacing, and positioning.</p>
+
+<p>Here&#39;s a simple example to help you understand how CSS works:</p>
+
+<p>Let&#39;s say you have an HTML document with a heading element that looks like this:</p>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">h1</span>&gt;Hello World&lt;/<span class="syntax-all syntax-tag">h1</span>&gt;</code></pre>
+
+<p>To change the font size and colour of the text in this heading using CSS, you would first create a CSS rule. A CSS rule consists of a selector, which is used to target the HTML element you want to style, and a set of declarations, which specify the style properties you want to apply.</p>
+
+<p>Here&#39;s an example CSS rule that targets the h1 element and changes the font size to 24 pixels and the colour to red:</p>
+
+<pre><code class="code-highlighted code-css"><span class="syntax-all syntax-tag">h1</span> {
+  <span class="syntax-all syntax-constant">font-size</span>: <span class="syntax-all syntax-constant">24</span><span class="syntax-all syntax-keyword">px</span>;
+  <span class="syntax-all syntax-constant">color</span>: <span class="syntax-all syntax-constant">red</span>;
+}</code></pre>
+
+<p>To apply this style to your HTML document, you would add this CSS rule to a <code>&lt;style&gt;</code> block in the <code>&lt;head&gt;</code> section of your HTML file, like this:</p>
+
+<pre><code class="code-highlighted code-html">&lt;!DOCTYPE html&gt;
+&lt;<span class="syntax-all syntax-tag">html</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">head</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">title</span>&gt;My Web Page&lt;/<span class="syntax-all syntax-tag">title</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">style</span>&gt;
+      <span class="syntax-all syntax-tag">h1</span> {
+        <span class="syntax-all syntax-constant">font-size</span>: <span class="syntax-all syntax-constant">24</span><span class="syntax-all syntax-keyword">px</span>;
+        <span class="syntax-all syntax-constant">color</span>: <span class="syntax-all syntax-constant">red</span>;
+      }
+    &lt;/<span class="syntax-all syntax-tag">style</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">head</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">body</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">h1</span>&gt;Hello World&lt;/<span class="syntax-all syntax-tag">h1</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">body</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">html</span>&gt;</code></pre>
+
+<p>When you open this HTML file in a web browser, you will see that the text &quot;Hello World&quot; is displayed in a larger font size and the colour red, as specified in the CSS rule.</p>
+
+<h2>External CSS</h2>
+
+<p> In addition to using inline in tags or CSS that is stored in the <code>&lt;style&gt;</code> block of an HTML file, you can also create an external CSS file and link to it in your HTML document. This can be a more efficient way to manage your styles if you have multiple pages that share the same styling.</p>
+
+<p>Here&#39;s an updated example that shows how to use an external CSS file:</p>
+
+<p>First, create a new file named <code>styles.css</code> and save it in the same directory as your HTML file. In this file, you can define your CSS rules just like you would in an inline <code>&lt;style&gt;</code> block:</p>
+
+<pre><code class="code-highlighted code-css"><span class="syntax-all syntax-tag">h1</span> {
+  <span class="syntax-all syntax-constant">font-size</span>: <span class="syntax-all syntax-constant">24</span><span class="syntax-all syntax-keyword">px</span>;
+  <span class="syntax-all syntax-constant">color</span>: <span class="syntax-all syntax-constant">red</span>;
+}</code></pre>
+
+<p>Next, in your HTML file, add a link to the external CSS file in the <code>&lt;head&gt;</code> section using the <code>&lt;link&gt;</code> element. The <code>href</code> attribute specifies the path to your CSS file, and the <code>rel</code> attribute should be set to &quot;stylesheet&quot;:</p>
+
+<pre><code class="code-highlighted code-html">&lt;!DOCTYPE html&gt;
+&lt;<span class="syntax-all syntax-tag">html</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">head</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">title</span>&gt;My Web Page&lt;/<span class="syntax-all syntax-tag">title</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">link</span> <span class="syntax-all syntax-entity">rel</span>=<span class="syntax-all syntax-string">&quot;stylesheet&quot;</span> <span class="syntax-all syntax-entity">href</span>=<span class="syntax-all syntax-string">&quot;styles.css&quot;</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">head</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">body</span>&gt;
+    &lt;<span class="syntax-all syntax-tag">h1</span>&gt;Hello World&lt;/<span class="syntax-all syntax-tag">h1</span>&gt;
+  &lt;/<span class="syntax-all syntax-tag">body</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">html</span>&gt;</code></pre>
+
+<p>When you open this HTML file in a web browser, you should see the same result as before: the text &quot;Hello World&quot; is displayed in a larger font size and the colour red, as specified in the CSS rule.</p>
+
+<p>Using an external CSS file can help keep your code organised, modularised and make it easier to update your styles across multiple pages. In fact: that is one reason CSS is called &#39;cascading&#39;: make a change in one file and the effects &#39;cascade&#39; through multiple referring files.</p>
+
+<p>Cool!</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>Learn HTML, CSS and JS here: <a href="https://developer.mozilla.org/en-US/docs/Web">https://developer.mozilla.org/en-US/docs/Web</a></li>
+	<li>CS50W - Harvard Course: For a more in depth view of contemporary HTML, CSS and JS <a href="https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0">https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0</a></li>
+	<li>W3 Schools: See HTML, CSS, PHP and SQL in References <a href="https://www.w3schools.com/">https://www.w3schools.com/</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+
