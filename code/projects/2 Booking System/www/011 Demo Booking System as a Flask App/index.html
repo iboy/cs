@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>A Demo Booking System as a Flask App</title>
+	</head>
+<body>
+<h1>A Demo Booking System as a Flask App</h1>
+
+<p>Here&#39;s an example of how to create a Python Flask app with SQLite that allows you to manage bookings:</p>
+
+<ol>
+	<li>Install Flask and SQLite</li>
+</ol>
+
+<p>Make sure you have Flask and SQLite installed in your Python environment. You can install them using pip:</p>
+
+<pre><code class="code-highlighted code-bash">pip install flask
+pip install sqlite3</code></pre>
+
+<ol start="2">
+	<li>Create a new Flask app</li>
+</ol>
+
+<p>Create a new Python file called <code>app.py</code> and add the following code:</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-keyword">from</span> flask <span class="syntax-all syntax-keyword">import</span> Flask, render_template, request, redirect, url_for
+<span class="syntax-all syntax-keyword">import</span> sqlite3
+
+app <span class="syntax-all syntax-keyword">=</span> Flask(<span class="syntax-all syntax-constant">__name__</span>)
+
+<span class="syntax-all syntax-comment"># Define the database file
+</span>db_path <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;bookings.db&quot;</span>
+
+<span class="syntax-all syntax-comment"># Create the bookings table if it doesn&#39;t exist
+</span><span class="syntax-all syntax-keyword">with</span> sqlite3.connect(db_path) <span class="syntax-all syntax-keyword">as</span> conn:
+    conn.execute(<span class="syntax-all syntax-string">&quot;&quot;&quot;
+</span><span class="syntax-all syntax-string">        CREATE TABLE IF NOT EXISTS bookings (
+</span><span class="syntax-all syntax-string">            id INTEGER PRIMARY KEY AUTOINCREMENT,
+</span><span class="syntax-all syntax-string">            name TEXT NOT NULL,
+</span><span class="syntax-all syntax-string">            email TEXT NOT NULL,
+</span><span class="syntax-all syntax-string">            phone TEXT NOT NULL,
+</span><span class="syntax-all syntax-string">            date TEXT NOT NULL,
+</span><span class="syntax-all syntax-string">            time TEXT NOT NULL,
+</span><span class="syntax-all syntax-string">            guests INTEGER NOT NULL
+</span><span class="syntax-all syntax-string">        )
+</span><span class="syntax-all syntax-string">    &quot;&quot;&quot;</span>)
+
+
+<span class="syntax-all syntax-comment"># Define the routes for the app
+</span><span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&quot;/&quot;</span>)
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">index</span>():
+    <span class="syntax-all syntax-comment"># Fetch all the bookings from the database
+</span>    <span class="syntax-all syntax-keyword">with</span> sqlite3.connect(db_path) <span class="syntax-all syntax-keyword">as</span> conn:
+        cursor <span class="syntax-all syntax-keyword">=</span> conn.cursor()
+        cursor.execute(<span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-string"> bookings&quot;</span>)
+        bookings <span class="syntax-all syntax-keyword">=</span> cursor.fetchall()
+    <span class="syntax-all syntax-keyword">return</span> render_template(<span class="syntax-all syntax-string">&quot;index.html&quot;</span>, <span class="syntax-all syntax-parameter">bookings</span><span class="syntax-all syntax-keyword">=</span>bookings)
+
+
+<span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&quot;/add&quot;</span>, <span class="syntax-all syntax-parameter">methods</span><span class="syntax-all syntax-keyword">=</span>[<span class="syntax-all syntax-string">&quot;GET&quot;</span>, <span class="syntax-all syntax-string">&quot;POST&quot;</span>])
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">add_booking</span>():
+    <span class="syntax-all syntax-keyword">if</span> request.method <span class="syntax-all syntax-keyword">==</span> <span class="syntax-all syntax-string">&quot;POST&quot;</span>:
+        <span class="syntax-all syntax-comment"># Retrieve the data from the form
+</span>        name <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;name&quot;</span>]
+        email <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;email&quot;</span>]
+        phone <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;phone&quot;</span>]
+        date <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;date&quot;</span>]
+        time <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;time&quot;</span>]
+        guests <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;guests&quot;</span>]
+
+        <span class="syntax-all syntax-comment"># Insert the booking into the database
+</span>        <span class="syntax-all syntax-keyword">with</span> sqlite3.connect(db_path) <span class="syntax-all syntax-keyword">as</span> conn:
+            conn.execute(<span class="syntax-all syntax-string">&quot;&quot;&quot;
+</span><span class="syntax-all syntax-string">                INSERT INTO bookings (name, email, phone, date, time, guests)
+</span><span class="syntax-all syntax-string">                VALUES (?, ?, ?, ?, ?, ?)
+</span><span class="syntax-all syntax-string">            &quot;&quot;&quot;</span>, (name, email, phone, date, time, guests))
+            conn.commit()
+
+        <span class="syntax-all syntax-keyword">return</span> redirect(url_for(<span class="syntax-all syntax-string">&quot;index&quot;</span>))
+
+    <span class="syntax-all syntax-keyword">return</span> render_template(<span class="syntax-all syntax-string">&quot;add.html&quot;</span>)
+
+
+<span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&quot;/edit/&lt;int:id&gt;&quot;</span>, <span class="syntax-all syntax-parameter">methods</span><span class="syntax-all syntax-keyword">=</span>[<span class="syntax-all syntax-string">&quot;GET&quot;</span>, <span class="syntax-all syntax-string">&quot;POST&quot;</span>])
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">edit_booking</span>(<span class="syntax-all syntax-parameter">id</span>):
+    <span class="syntax-all syntax-keyword">if</span> request.method <span class="syntax-all syntax-keyword">==</span> <span class="syntax-all syntax-string">&quot;POST&quot;</span>:
+        <span class="syntax-all syntax-comment"># Retrieve the data from the form
+</span>        name <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;name&quot;</span>]
+        email <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;email&quot;</span>]
+        phone <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;phone&quot;</span>]
+        date <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;date&quot;</span>]
+        time <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;time&quot;</span>]
+        guests <span class="syntax-all syntax-keyword">=</span> request.form[<span class="syntax-all syntax-string">&quot;guests&quot;</span>]
+
+        <span class="syntax-all syntax-comment"># Update the booking in the database
+</span>        <span class="syntax-all syntax-keyword">with</span> sqlite3.connect(db_path) <span class="syntax-all syntax-keyword">as</span> conn:
+            conn.execute(<span class="syntax-all syntax-string">&quot;&quot;&quot;
+</span><span class="syntax-all syntax-string">                UPDATE bookings
+</span><span class="syntax-all syntax-string">                SET name = ?, email = ?, phone = ?, date = ?, time = ?, guests = ?
+</span><span class="syntax-all syntax-string">                WHERE id = ?
+</span><span class="syntax-all syntax-string">            &quot;&quot;&quot;</span>, (name, email, phone, date, time, guests, <span class="syntax-all syntax-constant">id</span>))
+            conn.commit()
+
+        <span class="syntax-all syntax-keyword">return</span> redirect(url_for(<span class="syntax-all syntax-string">&quot;index&quot;</span>))
+
+    <span class="syntax-all syntax-comment"># Fetch the booking from the database
+</span>    <span class="syntax-all syntax-keyword">with</span> sqlite3.connect(db_path) <span class="syntax-all syntax-keyword">as</span> conn:
+        cursor <span class="syntax-all syntax-keyword">=</span> conn.cursor()
+        cursor.execute(<span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-string"> bookings </span><span class="syntax-all syntax-keyword">WHERE</span><span class="syntax-all syntax-string"> id </span><span class="syntax-all syntax-keyword">=</span><span class="syntax-all syntax-string"> ?&quot;</span>, (<span class="syntax-all syntax-constant">id</span>,))
+        booking <span class="syntax-all syntax-keyword">=</span> cursor.fetchone()
+
+    <span class="syntax-all syntax-keyword">if</span> booking <span class="syntax-all syntax-keyword">is</span> <span class="syntax-all syntax-constant">None</span>:
+        <span class="syntax-all syntax-keyword">return</span> redirect(url_for(<span class="syntax-all syntax-string">&quot;index&quot;</span>))
+
+    <span class="syntax-all syntax-keyword">return</span> render_template(<span class="syntax-all syntax-string">&quot;edit.html&quot;</span>, <span class="syntax-all syntax-parameter">booking</span><span class="syntax-all syntax-keyword">=</span>booking)
+
+
+<span class="syntax-all syntax-entity">@app.route</span>(<span class="syntax-all syntax-string">&quot;/delete/&lt;int:id&gt;&quot;</span>, <span class="syntax-all syntax-parameter">methods</span><span class="syntax-all syntax-keyword">=</span>[<span class="syntax-all syntax-string">&quot;POST&quot;</span>])
+<span class="syntax-all syntax-keyword">def</span> <span class="syntax-all syntax-entity">delete_booking</span>(<span class="syntax-all syntax-parameter">id</span>):
+    <span class="syntax-all syntax-comment"># Delete the booking from the database
+</span>    <span class="syntax-all syntax-keyword">with</span> sqlite3.connect(db_path) <span class="syntax-all syntax-keyword">as</span></code></pre>
+
+<ol start="3">
+	<li>Create HTML Templates</li>
+</ol>
+
+<p>Here is an example of a template with forms that you can modify for your specific needs:</p>
+
+<pre><code class="code-highlighted code-html">&lt;!doctype html&gt;
+&lt;<span class="syntax-all syntax-tag">html</span>&gt;
+   &lt;<span class="syntax-all syntax-tag">head</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">title</span>&gt;Booking System&lt;/<span class="syntax-all syntax-tag">title</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">meta</span> <span class="syntax-all syntax-entity">charset</span>=<span class="syntax-all syntax-string">&quot;utf-8&quot;</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">meta</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;viewport&quot;</span> <span class="syntax-all syntax-entity">content</span>=<span class="syntax-all syntax-string">&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">link</span> <span class="syntax-all syntax-entity">rel</span>=<span class="syntax-all syntax-string">&quot;stylesheet&quot;</span> <span class="syntax-all syntax-entity">href</span>=<span class="syntax-all syntax-string">&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css&quot;</span>&gt;
+   &lt;/<span class="syntax-all syntax-tag">head</span>&gt;
+   &lt;<span class="syntax-all syntax-tag">body</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">div</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;container&quot;</span>&gt;
+         &lt;<span class="syntax-all syntax-tag">h1</span>&gt;Booking System&lt;/<span class="syntax-all syntax-tag">h1</span>&gt;
+         {% with messages = get_flashed_messages() %}
+            {% if messages %}
+               {% for message in messages %}
+                  &lt;<span class="syntax-all syntax-tag">div</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;alert alert-info&quot;</span>&gt;{{ message }}&lt;/<span class="syntax-all syntax-tag">div</span>&gt;
+               {% endfor %}
+            {% endif %}
+         {% endwith %}
+         &lt;<span class="syntax-all syntax-tag">h2</span>&gt;Add a booking&lt;/<span class="syntax-all syntax-tag">h2</span>&gt;
+         &lt;<span class="syntax-all syntax-tag">form</span> <span class="syntax-all syntax-entity">method</span>=<span class="syntax-all syntax-string">&quot;post&quot;</span> <span class="syntax-all syntax-entity">action</span>=<span class="syntax-all syntax-string">&quot;{{ url_for(&#39;add_booking&#39;) }}&quot;</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">div</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-group&quot;</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span>&gt;Name&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;text&quot;</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-control&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span> <span class="syntax-all syntax-entity">placeholder</span>=<span class="syntax-all syntax-string">&quot;Enter your name&quot;</span>&gt;
+            &lt;/<span class="syntax-all syntax-tag">div</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">div</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-group&quot;</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span>&gt;Email&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-control&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">placeholder</span>=<span class="syntax-all syntax-string">&quot;Enter your email&quot;</span>&gt;
+            &lt;/<span class="syntax-all syntax-tag">div</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">div</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-group&quot;</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;date&quot;</span>&gt;Date&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;date&quot;</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-control&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;date&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;date&quot;</span>&gt;
+            &lt;/<span class="syntax-all syntax-tag">div</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">div</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-group&quot;</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;time&quot;</span>&gt;Time&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;time&quot;</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;form-control&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;time&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;time&quot;</span>&gt;
+            &lt;/<span class="syntax-all syntax-tag">div</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">button</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;submit&quot;</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;btn btn-primary&quot;</span>&gt;Add Booking&lt;/<span class="syntax-all syntax-tag">button</span>&gt;
+         &lt;/<span class="syntax-all syntax-tag">form</span>&gt;
+         &lt;<span class="syntax-all syntax-tag">hr</span>&gt;
+         &lt;<span class="syntax-all syntax-tag">h2</span>&gt;View Bookings&lt;/<span class="syntax-all syntax-tag">h2</span>&gt;
+         &lt;<span class="syntax-all syntax-tag">table</span> <span class="syntax-all syntax-entity">class</span>=<span class="syntax-all syntax-string">&quot;table&quot;</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">thead</span>&gt;
+               &lt;<span class="syntax-all syntax-tag">tr</span>&gt;
+                  &lt;<span class="syntax-all syntax-tag">th</span>&gt;Name&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+                  &lt;<span class="syntax-all syntax-tag">th</span>&gt;Email&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+                  &lt;<span class="syntax-all syntax-tag">th</span>&gt;Date&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+                  &lt;<span class="syntax-all syntax-tag">th</span>&gt;Time&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+                  &lt;<span class="syntax-all syntax-tag">th</span>&gt;Action&lt;/<span class="syntax-all syntax-tag">th</span>&gt;
+               &lt;/<span class="syntax-all syntax-tag">tr</span>&gt;
+            &lt;/<span class="syntax-all syntax-tag">thead</span>&gt;
+            &lt;<span class="syntax-all syntax-tag">tbody</span>&gt;
+               {% for booking in bookings %}
+                  &lt;<span class="syntax-all syntax-tag">tr</span>&gt;
+                     &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ booking[&#39;name&#39;] }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+                     &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ booking[&#39;email&#39;] }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+                     &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ booking[&#39;date&#39;] }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+                     &lt;<span class="syntax-all syntax-tag">td</span>&gt;{{ booking[&#39;time&#39;] }}&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+                     &lt;<span class="syntax-all syntax-tag">td</span>&gt;&lt;<span class="syntax-all syntax-tag">a</span> <span class="syntax-all syntax-entity">href</span>=<span class="syntax-all syntax-string">&quot;{{ url_for(&#39;delete_booking&#39;, booking_id=booking[&#39;id&#39;]) }}&quot;</span>&gt;Delete&lt;/<span class="syntax-all syntax-tag">a</span>&gt;&lt;/<span class="syntax-all syntax-tag">td</span>&gt;
+                  &lt;/<span class="syntax-all syntax-tag">tr</span>&gt;
+               {% endfor %}
+            &lt;/<span class="syntax-all syntax-tag">tbody</span>&gt;
+         &lt;/<span class="syntax-all syntax-tag">table</span>&gt;
+      &lt;/<span class="syntax-all syntax-tag">div</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">script</span> <span class="syntax-all syntax-entity">src</span>=<span class="syntax-all syntax-string">&quot;https://code.jquery.com/jquery-3.5.1.slim.min.js&quot;</span>&gt;&lt;/<span class="syntax-all syntax-tag">script</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">script</span> <span class="syntax-all syntax-entity">src</span>=<span class="syntax-all syntax-string">&quot;https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js&quot;</span>&gt;&lt;/<span class="syntax-all syntax-tag">script</span>&gt;
+      &lt;<span class="syntax-all syntax-tag">script</span> <span class="syntax-all syntax-entity">src</span>=<span class="syntax-all syntax-string">&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js&quot;</span>&gt;&lt;/<span class="syntax-all syntax-tag">script</span>&gt;
+   &lt;/<span class="syntax-all syntax-tag">body</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">html</span>&gt;</code></pre>
+
+<p>You will need to modify the HTML form fields and table headers to fit your specific database table and field names.</p>
+
+</body>
+</html>
+

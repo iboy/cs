@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>An Introduction to HTML Forms</title>
+	</head>
+<body>
+<h1>An Introduction to HTML Forms</h1>
+
+<p>In HTML5, forms are used to collect information from users. They allow you to create a user interface with input fields, such as text boxes, checkboxes, radio buttons, and more.</p>
+
+<p>Here&#39;s a simple example of an HTML form that asks for a user&#39;s name and email address:</p>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">form</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span>&gt;Name:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;text&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;name&quot;</span>&gt;&lt;<span class="syntax-all syntax-tag">br</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span>&gt;Email:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;email&quot;</span>&gt;&lt;<span class="syntax-all syntax-tag">br</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;submit&quot;</span> <span class="syntax-all syntax-entity">value</span>=<span class="syntax-all syntax-string">&quot;Submit&quot;</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">form</span>&gt;</code></pre>
+
+<p>In this example, the <code>&lt;form&gt;</code> element encloses the entire form and the <code>&lt;/form&gt;</code> tag signals the end of the form. Each input field is enclosed in its own <code>&lt;label&gt;</code> element, which is associated with the input using the for attribute and the id attribute.</p>
+
+<p>The type attribute of each input field determines the type of data that will be collected. For example, the <code>type=&quot;text&quot;</code> attribute specifies a simple text input field, while <code>type=&quot;email&quot;</code> specifies an email address input field.</p>
+
+<p>Finally, the <code>&lt;input&gt;</code> element with <code>type=&quot;submit&quot;</code> creates a submit button that, when clicked, will send the form data to a server-side script for processing.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>Learn HTML, CSS and PHP here: <a href="https://developer.mozilla.org/en-US/docs/Web">https://developer.mozilla.org/en-US/docs/Web</a></li>
+	<li>CS50W - Harvard Course: For a more in depth view of contemporary HTML, CSS and JS <a href="https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0">https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0</a></li>
+	<li>W3 Schools: See HTML, CSS, PHP and SQL in References <a href="https://www.w3schools.com/">https://www.w3schools.com/</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>PHP Web App File Structure</title>
+	</head>
+<body>
+<h1>PHP Web App File Structure</h1>
+
+<p>Below is an example file structure for a PHP event booking system app. Like other technology, Ruby on Rails and Flask (Python), the structure encourages a Model View Controller design pattern. Informed by OOP, the structure encourages code separation and modularisation, data abstraction and encapsulation. It may take some getting used to, but it is a very common pattern</p>
+
+<p>More information: Research / Investigate MVC in WebApps.</p>
+
+<pre><code class="code-highlighted code-bash">app/
+  controllers/
+    EventController.php
+    BookingController.php
+  models/
+    Event.php
+    Booking.php
+  views/
+    events/
+      index.php
+      create.php
+      edit.php
+      show.php
+    bookings/
+      index.php
+      create.php
+      edit.php
+      show.php
+config/
+  database.php
+public/
+  css/
+    styles.css
+  js/
+    main.js
+  images/
+    logo.png
+routes/
+  web.php
+vendor/</code></pre>
+
+<ul>
+	<li>The app/ directory contains the main application code.</li>
+	<li>The controllers/ directory contains the PHP controller files.</li>
+	<li>The models/ directory contains the PHP model files.</li>
+	<li>The views/ directory contains the HTML view files, organised by controller and action.</li>
+	<li>The config/ directory contains configuration files, such as the database configuration file.</li>
+	<li>The public/ directory contains static files, such as CSS, JavaScript, and image files.</li>
+	<li>The routes/ directory contains the application routes file.</li>
+	<li>The vendor/ directory contains the third-party PHP dependencies.</li>
+</ul>
+
+<p>Please adjust this example based on your specific needs and preferences.</p>
+
+</body>
+</html>
+

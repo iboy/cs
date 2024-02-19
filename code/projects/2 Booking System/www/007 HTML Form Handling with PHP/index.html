@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>HTML Form Handling with PHP</title>
+	</head>
+<body>
+<h1>HTML Form Handling with PHP</h1>
+
+<p>The HTML and PHP scripts below shows an example of an HTML form that allows a user to update a booking in a database using PHP and CRUD operations:</p>
+
+<h2>HTML Form:</h2>
+
+<pre><code class="code-highlighted code-html">&lt;<span class="syntax-all syntax-tag">form</span> <span class="syntax-all syntax-entity">action</span>=<span class="syntax-all syntax-string">&quot;update_booking.php&quot;</span> <span class="syntax-all syntax-entity">method</span>=<span class="syntax-all syntax-string">&quot;post&quot;</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;booking_id&quot;</span>&gt;Booking ID:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;text&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;booking_id&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;booking_id&quot;</span> <span class="syntax-all syntax-entity">required</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;customer_name&quot;</span>&gt;Customer Name:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;text&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;customer_name&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;customer_name&quot;</span> <span class="syntax-all syntax-entity">required</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;check_in_date&quot;</span>&gt;Check-In Date:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;date&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;check_in_date&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;check_in_date&quot;</span> <span class="syntax-all syntax-entity">required</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">label</span> <span class="syntax-all syntax-entity">for</span>=<span class="syntax-all syntax-string">&quot;check_out_date&quot;</span>&gt;Check-Out Date:&lt;/<span class="syntax-all syntax-tag">label</span>&gt;
+  &lt;<span class="syntax-all syntax-tag">input</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;date&quot;</span> <span class="syntax-all syntax-entity">id</span>=<span class="syntax-all syntax-string">&quot;check_out_date&quot;</span> <span class="syntax-all syntax-entity">name</span>=<span class="syntax-all syntax-string">&quot;check_out_date&quot;</span> <span class="syntax-all syntax-entity">required</span>&gt;
+
+  &lt;<span class="syntax-all syntax-tag">button</span> <span class="syntax-all syntax-entity">type</span>=<span class="syntax-all syntax-string">&quot;submit&quot;</span>&gt;Update Booking&lt;/<span class="syntax-all syntax-tag">button</span>&gt;
+&lt;/<span class="syntax-all syntax-tag">form</span>&gt;</code></pre>
+
+<h2>PHP Script (update_booking.php):</h2>
+
+<pre><code class="code-highlighted code-php"><span class="syntax-all syntax-keyword">&lt;?</span><span class="syntax-all syntax-constant">php</span>
+<span class="syntax-all syntax-comment">// Connect to database
+</span><span class="syntax-all syntax-parameter">$servername</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;localhost&quot;</span>;
+<span class="syntax-all syntax-parameter">$username</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;username&quot;</span>;
+<span class="syntax-all syntax-parameter">$password</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;password&quot;</span>;
+<span class="syntax-all syntax-parameter">$dbname</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;bookings_db&quot;</span>;
+
+<span class="syntax-all syntax-parameter">$conn</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-keyword">new</span> <span class="syntax-all syntax-constant">mysqli</span>(<span class="syntax-all syntax-parameter">$servername</span>, <span class="syntax-all syntax-parameter">$username</span>, <span class="syntax-all syntax-parameter">$password</span>, <span class="syntax-all syntax-parameter">$dbname</span>);
+
+<span class="syntax-all syntax-comment">// Check connection
+</span><span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-parameter">$conn</span><span class="syntax-all syntax-keyword">-&gt;</span><span class="syntax-all syntax-parameter">connect_error</span>) {
+  <span class="syntax-all syntax-keyword">die</span>(<span class="syntax-all syntax-string">&quot;Connection failed: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-parameter">$conn</span><span class="syntax-all syntax-keyword">-&gt;</span><span class="syntax-all syntax-parameter">connect_error</span>);
+}
+
+<span class="syntax-all syntax-comment">// Get form data
+</span><span class="syntax-all syntax-parameter">$booking_id</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&quot;booking_id&quot;</span>];
+<span class="syntax-all syntax-parameter">$customer_name</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&quot;customer_name&quot;</span>];
+<span class="syntax-all syntax-parameter">$check_in_date</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&quot;check_in_date&quot;</span>];
+<span class="syntax-all syntax-parameter">$check_out_date</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-parameter">$_POST</span>[<span class="syntax-all syntax-string">&quot;check_out_date&quot;</span>];
+
+<span class="syntax-all syntax-comment">// Update booking in database
+</span><span class="syntax-all syntax-parameter">$sql</span> <span class="syntax-all syntax-keyword">=</span> <span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">UPDATE</span><span class="syntax-all syntax-parameter"> bookings </span><span class="syntax-all syntax-keyword">SET</span><span class="syntax-all syntax-parameter"> customer_name</span><span class="syntax-all syntax-keyword">=</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$customer_name</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, check_in_date</span><span class="syntax-all syntax-keyword">=</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$check_in_date</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter">, check_out_date</span><span class="syntax-all syntax-keyword">=</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$check_out_date</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-parameter"> </span><span class="syntax-all syntax-keyword">WHERE</span><span class="syntax-all syntax-parameter"> booking_id</span><span class="syntax-all syntax-keyword">=</span><span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-constant">$booking_id</span><span class="syntax-all syntax-string">&#39;&quot;</span>;
+
+<span class="syntax-all syntax-keyword">if</span> (<span class="syntax-all syntax-parameter">$conn</span><span class="syntax-all syntax-keyword">-&gt;</span><span class="syntax-all syntax-entity">query</span>(<span class="syntax-all syntax-parameter">$sql</span>) <span class="syntax-all syntax-keyword">===</span> <span class="syntax-all syntax-constant">TRUE</span>) {
+  <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Booking updated successfully&quot;</span>;
+} <span class="syntax-all syntax-keyword">else</span> {
+  <span class="syntax-all syntax-constant">echo</span> <span class="syntax-all syntax-string">&quot;Error updating booking: &quot;</span> <span class="syntax-all syntax-keyword">.</span> <span class="syntax-all syntax-parameter">$conn</span><span class="syntax-all syntax-keyword">-&gt;</span><span class="syntax-all syntax-parameter">error</span>;
+}
+
+<span class="syntax-all syntax-comment">// Close database connection
+</span><span class="syntax-all syntax-parameter">$conn</span><span class="syntax-all syntax-keyword">-&gt;</span><span class="syntax-all syntax-entity">close</span>();
+<span class="syntax-all syntax-keyword">?&gt;</span></code></pre>
+
+<p>This PHP script will update the booking with the given booking_id in the bookings table of the database with the new customer name, check-in date, and check-out date. If the update is successful, the script will output &quot;Booking updated successfully&quot;, otherwise it will output an error message. In a production application, you must catch all potential errors and present meaningful messages to the user.</p>
+
+<h2>Further Resources</h2>
+
+<ol>
+	<li>Learn HTML, CSS and PHP here: <a href="https://developer.mozilla.org/en-US/docs/Web">https://developer.mozilla.org/en-US/docs/Web</a></li>
+	<li>CS50W - Harvard Course: For a more in depth view of contemporary HTML, CSS and JS <a href="https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0">https://pll.harvard.edu/course/cs50s-web-programming-python-and-javascript?delta=0</a></li>
+	<li>W3 Schools: See HTML, CSS, PHP and SQL in References <a href="https://www.w3schools.com/">https://www.w3schools.com/</a></li>
+</ol>
+
+<h2>Code</h2>
+
+<p>Class Github: <a href="https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System">https://github.com/iboy/cs/tree/main/code/projects/2%20Booking%20System</a></p>
+
+</body>
+</html>
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Introduction to Using SQLite with Python</title>
+	</head>
+<body>
+<h1>Introduction to Using SQLite with Python</h1>
+
+<p>Python is a popular programming language for data analysis, and SQLite is a lightweight relational database management system that can be easily integrated with Python. Here&#39;s a brief introduction to using Python with SQLite, along with an example.</p>
+
+<h2>Setting up SQLite in Python</h2>
+
+<p>To get started with SQLite in Python, you&#39;ll first need to install the sqlite3 library. This library comes pre-installed with Python, so you don&#39;t need to install anything separately.</p>
+
+<p>Once you&#39;ve imported the sqlite3 library into your Python script, you can connect to a SQLite database using the connect() method. This method takes the name of the database file as its argument.</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-keyword">import</span> sqlite3
+
+<span class="syntax-all syntax-comment">#Connect to a SQLite database
+</span>conn <span class="syntax-all syntax-keyword">=</span> sqlite3.connect(<span class="syntax-all syntax-string">&#39;example.db&#39;</span>)
+Creating a Table <span class="syntax-all syntax-keyword">in</span> SQLite</code></pre>
+
+<p>Once you&#39;ve connected to your SQLite database, you can create a table using the execute() method. This method takes a SQL query as its argument, which specifies the structure of the table.</p>
+
+<p>For example, here&#39;s a simple SQL query that creates a table called &quot;students&quot; with three columns: &quot;name&quot;, &quot;age&quot;, and &quot;gpa&quot;.</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-comment">#Create a table in the database
+</span>conn.execute(<span class="syntax-all syntax-string">&#39;&#39;&#39;CREATE TABLE students
+</span><span class="syntax-all syntax-string">             (name </span><span class="syntax-all syntax-keyword">TEXT</span><span class="syntax-all syntax-string">, age </span><span class="syntax-all syntax-keyword">INT</span><span class="syntax-all syntax-string">, gpa </span><span class="syntax-all syntax-keyword">REAL</span><span class="syntax-all syntax-string">)&#39;&#39;&#39;</span>)</code></pre>
+
+<h2>Inserting Data into SQLite</h2>
+
+<p>After you&#39;ve created a table in your SQLite database, you can insert data into it using the execute() method again. This time, you&#39;ll need to use an SQL INSERT statement to specify the values you want to insert.</p>
+
+<p>Here&#39;s an example of how to insert a row of data into the &quot;students&quot; table.</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-comment"># Insert data into the table
+</span>conn.execute(<span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> students </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (&#39;John Doe&#39;, </span><span class="syntax-all syntax-constant">21</span><span class="syntax-all syntax-string">, </span><span class="syntax-all syntax-constant">3</span><span class="syntax-all syntax-string">.</span><span class="syntax-all syntax-constant">5</span><span class="syntax-all syntax-string">)&quot;</span>)
+Retrieving Data <span class="syntax-all syntax-keyword">from</span> SQLite</code></pre>
+
+<p>Once you&#39;ve inserted data into your SQLite database, you can retrieve it using the execute() method again. This time, you&#39;ll use an SQL SELECT statement to specify the data you want to retrieve.</p>
+
+<p>Here&#39;s an example of how to retrieve all the rows from the &quot;students&quot; table.</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-comment"># Retrieve data from the table
+</span>cursor <span class="syntax-all syntax-keyword">=</span> conn.execute(<span class="syntax-all syntax-string">&quot;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-string"> students&quot;</span>)
+<span class="syntax-all syntax-keyword">for</span> row <span class="syntax-all syntax-keyword">in</span> cursor:
+    <span class="syntax-all syntax-constant">print</span>(row)</code></pre>
+
+<p>This code will print out all the rows in the &quot;students&quot; table, which should include the data you just inserted.</p>
+
+<p>That&#39;s a brief introduction to using Python with SQLite! There&#39;s a lot more you can do with SQLite, including more complex SQL queries, updating and deleting data, and more. But this should give you a good starting point for working with SQLite in Python.</p>
+
+<h2>Building SQL Queries in Python</h2>
+
+<p>You will need to build SQL query strings in Python constructed from other data you process in your program. There are a few documented ways to do this, but you&#39;ll find some more secure than others. </p>
+
+<p>The code below demonstrates a safe way to construct dynamic queries, that offer some level of protection from SQL injections. Read the article linked in the code comment and <a href="https://stackoverflow.com/questions/49061103/how-to-format-and-build-query-strings-in-python-sqlite">here</a> for more information.</p>
+
+<pre><code class="code-highlighted code-python"><span class="syntax-all syntax-comment"># Building a query for sqlite in python
+</span><span class="syntax-all syntax-comment"># adapted from https://stackoverflow.com/questions/49061103/how-to-format-and-build-query-strings-in-python-sqlite
+</span><span class="syntax-all syntax-comment"># To avoid formatting problems and SQL injection attacks, you should always use parameters.
+</span>
+
+<span class="syntax-all syntax-keyword">import</span> sqlite3
+
+
+<span class="syntax-all syntax-comment">#create a connection
+</span>conn <span class="syntax-all syntax-keyword">=</span> sqlite3.connect(<span class="syntax-all syntax-string">&#39;test.db&#39;</span>)
+cur <span class="syntax-all syntax-keyword">=</span> conn.cursor()
+
+<span class="syntax-all syntax-comment">#cur.execute(&#39;&#39;&#39;
+</span><span class="syntax-all syntax-comment">#CREATE TABLE IF NOT EXISTS &quot;test&quot; 
+</span><span class="syntax-all syntax-comment">#    (   id integer, 
+</span><span class="syntax-all syntax-comment">#        value text,
+</span><span class="syntax-all syntax-comment">#        primary key (id)
+</span><span class="syntax-all syntax-comment">#    );
+</span><span class="syntax-all syntax-comment">#&#39;&#39;&#39;)
+</span>
+<span class="syntax-all syntax-comment"># create 4 records, note the primary key should autoincrement.
+</span>cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record One&quot;</span>,)); <span class="syntax-all syntax-comment"># note the final comma is essential for creating a single-element tuple
+</span>cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record Two&quot;</span>,));
+cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record Three&quot;</span>,));
+cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">INSERT INTO</span><span class="syntax-all syntax-string"> test(value) </span><span class="syntax-all syntax-keyword">VALUES</span><span class="syntax-all syntax-string"> (?);&#39;</span>, (<span class="syntax-all syntax-string">&quot;Record Four&quot;</span>,));
+
+
+conn.commit()
+cur.execute(<span class="syntax-all syntax-string">&#39;</span><span class="syntax-all syntax-keyword">SELECT</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">*</span><span class="syntax-all syntax-string"> </span><span class="syntax-all syntax-keyword">FROM</span><span class="syntax-all syntax-string"> test;&#39;</span>);
+rows <span class="syntax-all syntax-keyword">=</span> cur.fetchall()
+<span class="syntax-all syntax-keyword">for</span> row <span class="syntax-all syntax-keyword">in</span> rows:
+    <span class="syntax-all syntax-constant">print</span>(row)</code></pre>
+
+</body>
+</html>
+
