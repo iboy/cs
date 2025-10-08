@@ -1,0 +1,42 @@
+/* refactored the CSS to avoid repeating rules*/
+
+#div1, #div2, #div3 {
+	
+	background-color:black; 
+	height:1000px; 
+	background-repeat:no-repeat;
+	background-size: 100%;
+	text-align:center;
+	
+}
+/* set the background images heres*/
+#div1 {
+	background-image: url(../images/1024T@2x-1.jpeg); 
+
+}
+
+#div2 {
+	background-image: url(../images/1024T@2x-3.jpeg); 
+		
+}
+
+#div3 {
+	background-image: url(../images/1024T@2x.jpeg); 	
+}
+
+
+/* try to get a nice round button - may not be cross browser friendly*/
+button {
+	  
+	  width: 200px;
+	  height: 200px;
+	  color: white;
+	  background-color: black;
+	  moz-border-radius: 100px;
+	  -webkit-border-radius: 100px;
+	  border-radius: 100px;
+	  border: 4px solid gray;
+	  padding: 50px;
+	  margin: 50px;
+	
+}

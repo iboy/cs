@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>This is my scrolling test</title>
+	<script src="js/jquery-2.0.3.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+    $(document).ready(function (){
+		$("#clickDown1").click(function (){
+        
+            $('html, body').animate({
+                scrollTop: $("#div2").offset().top
+            }, 500);
+        
+   	 	});
+
+
+    	$("#clickDown2").click(function (){
+        
+            $('html, body').animate({
+                scrollTop: $("#div3").offset().top
+            }, 500);
+        
+    	});
+	
+	});
+	</script>
+	</head>
+	<body>
+		<div id="div1" style="background-color:red; height:1000px;">
+			<button id="clickDown1">down</button><button id="clickUp1">up</button>
+		</div>	
+		<div id="div2" style="background-color:green; height:1000px;">
+			<button id="clickDown2">down</button><button id="clickUp2">up</button>
+		</div>	
+		<div id="div3" style="background-color:blue; height:1000px;">
+			<button id="clickDown3">down</button><button id="clickUp3">up</button>
+		</div>	
+	</body>
+</html>

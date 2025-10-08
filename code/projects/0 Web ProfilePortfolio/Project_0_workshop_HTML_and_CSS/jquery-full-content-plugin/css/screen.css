@@ -1,0 +1,66 @@
+/* Hide scroll bars in the jquery plughin - see docs*/
+body { overflow-x: hidden; overflow-y: hidden; }
+
+/* refactored the CSS to avoid repeating rules*/
+
+#contentStage1, #contentStage2, #contentStage3 {
+	
+	background-color:black; 
+	height:1000px; 
+	background-repeat:no-repeat;
+	background-size: 100%;
+	text-align:center;
+	
+}
+/* set the background images heres*/
+#contentStage1 {
+	background-image: url(../images/1024T@2x-1.jpeg); 
+
+}
+
+#contentStage2 {
+	background-image: url(../images/1024T@2x-3.jpeg); 
+		
+}
+
+#contentStage3 {
+	background-image: url(../images/1024T@2x.jpeg); 	
+}
+
+
+/* try to get a nice round button - may not be cross browser friendly*/
+
+#buttonContainer {
+	/*
+		wrap a contain around both buttons to adjust the onscreen position 
+	*/
+	padding-top: 100px;
+	
+}
+
+#myButton {
+	/* drop shadow*/
+	-moz-box-shadow: 5px 5px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 5px 5px rgba(0,0,0,0.5);
+	box-shadow: 5px 5px rgba(0,0,0,0.5);
+	/* set the divs side by side */
+	display: inline;
+	/* misc properties*/
+	width: 100px;
+	height: 100px;
+	font-size:2em;
+	color: white;
+	background-color: black;
+	/* rounded corners	*/
+	moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
+	border-radius: 100px;
+	border: 4px solid gray;
+	padding: 50px;
+	margin: 50px;
+
+}
+a { color:white;
+	/* remove underline form links */
+	text-decoration: none;}
+	
